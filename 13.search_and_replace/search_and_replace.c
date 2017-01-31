@@ -1,46 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   repeat_alpha.c                                     :+:      :+:    :+:   */
+/*   search_and_replace.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xbai <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 22:06:41 by xbai              #+#    #+#             */
-/*   Updated: 2017/01/30 22:29:57 by xbai             ###   ########.fr       */
+/*   Created: 2017/01/30 23:37:36 by xbai              #+#    #+#             */
+/*   Updated: 2017/01/30 23:54:39 by xbai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int		main(int argc, char **argv)
+int		ft_strlen(char *str)
 {
 	int		i;
-	int		cnt;
 
-	if (argc == 2)
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	search_and_replace(char **argv)
+{
+	if (ft_strlen(argv[2]) == 1 && ft_strlen(argv[3]) == 1)
 	{
 		while (*argv[1])
 		{
-			if ((*argv[1] >= 'a' && *argv[1] <= 'z') || (*argv[1] >= 'A' && *argv[1] <= 'Z'))
-			{
-				i = 0;
-				if ((*argv[1] - 'a') >= 0)
-					cnt = (*argv[1] - 'a');
-				else
-					cnt = (*argv[1] - 'A');
-				while (i <= cnt)
-				{
-					write(1, argv[1], 1);
-					i++;
-				}
-			}
-			else
-			{
-				write(1, argv[1], 1);
-			}
+			if (*argv[1] == *argv[2])
+				*argv[1] = *argv[3];
+			write(1, argv[1], 1);
 			argv[1]++;
 		}
 	}
+}
+
+int		main(int argc, char **argv)
+{
+	if (argc == 4)
+		search_and_replace(argv);
 	write(1, "\n", 1);
-	return (0);
 }

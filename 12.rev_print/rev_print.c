@@ -1,44 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   repeat_alpha.c                                     :+:      :+:    :+:   */
+/*   rev_print.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xbai <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 22:06:41 by xbai              #+#    #+#             */
-/*   Updated: 2017/01/30 22:29:57 by xbai             ###   ########.fr       */
+/*   Created: 2017/01/30 22:31:45 by xbai              #+#    #+#             */
+/*   Updated: 2017/01/30 22:44:06 by xbai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int		main(int argc, char **argv)
+int		ft_strlen(char *str)
 {
 	int		i;
-	int		cnt;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+int		main(int argc, char **argv)
+{
+	int		len;
+	int		i;
 
 	if (argc == 2)
 	{
-		while (*argv[1])
+		len = ft_strlen(argv[1]);
+		i = len - 1;
+		while (i >= 0)
 		{
-			if ((*argv[1] >= 'a' && *argv[1] <= 'z') || (*argv[1] >= 'A' && *argv[1] <= 'Z'))
-			{
-				i = 0;
-				if ((*argv[1] - 'a') >= 0)
-					cnt = (*argv[1] - 'a');
-				else
-					cnt = (*argv[1] - 'A');
-				while (i <= cnt)
-				{
-					write(1, argv[1], 1);
-					i++;
-				}
-			}
-			else
-			{
-				write(1, argv[1], 1);
-			}
-			argv[1]++;
+			write(1, &argv[1][i--], 1);
 		}
 	}
 	write(1, "\n", 1);

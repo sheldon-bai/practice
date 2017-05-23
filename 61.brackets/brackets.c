@@ -6,8 +6,24 @@ int		ft_strlen(char *str)
 
 	i = 0;
 	while (str[i])
-		++i;
+		i++;
 	return (i);
+}
+
+void	ft_loopcalc(char curchar, int *loop1, int *loop2, int *loop3)
+{
+	if (curchar == ')')
+			(*loop1)++;
+		else if (curchar == '(')
+			(*loop1)--;
+		else if (curchar == ']')
+			(*loop2)++;
+		else if (curchar == '[')
+			(*loop2)--;
+		else if (curchar == '}')
+			(*loop3)++;
+		else if (curchar == '{')
+			(*loop3)--;
 }
 
 int		ft_iskuohao(char c)
@@ -40,12 +56,7 @@ int		ft_brackets(char *str)
 		loop1 = 0;
 		loop2 = 0;
 		loop3 = 0;
-		if (curchar == ')')
-			loop1++;
-		else if (curchar == ']')
-			loop2++;
-		else if (curchar == '}')
-			loop3++;
+		ft_loopcalc(str[i], &loop1, &loop2, &loop3);
 		if (loop1 || loop2 || loop3)
 			str[i] = 'd';
 		j = i;
@@ -53,25 +64,68 @@ int		ft_brackets(char *str)
 		{
 			if (--j < 0)
 				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
 			if (str[j] == '(')
-				loop1--;
-			str[j] = 'a';
+			{
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'a';
+			}
+		}
+		while (loop1 < 0)
+		{
+			if (++j == len)
+				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
+			if (str[j] == ')')
+			{
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'a';
+			}
 		}
 		while (loop2 > 0)
 		{
 			if (--j < 0)
 				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
 			if (str[j] == '[')
-				loop2--;
-			str[j] = 'b';
+			{
+
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'b';
+			}
+		}
+		while (loop2 < 0)
+		{
+			if (++j == len)
+				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
+			if (str[j] == ']')
+			{
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'b';
+			}
 		}
 		while (loop3 > 0)
 		{
 			if (--j < 0)
 				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
 			if (str[j] == '{')
-				loop3--;
-			str[j] = 'c';
+			{
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'c';
+			}
+		}
+		while (loop3 < 0)
+		{
+			if (++j == len)
+				return (0);
+			ft_loopcalc(str[j], &loop1, &loop2, &loop3);
+			if (str[j] == '}')
+			{
+				if (loop1 == 0 && loop2 == 0 && loop3 == 0)
+					str[j] = 'c';
+			}
 		}
 	}
 	return (1);

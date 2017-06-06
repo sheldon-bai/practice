@@ -1,40 +1,44 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: exam <marvin@42.fr>                        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/20 20:59:59 by exam              #+#    #+#             */
-/*   Updated: 2017/01/20 21:10:27 by exam             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
 
 char	*ft_itoa_base(int value, int base)
 {
-	unsigned int	i;
+	unsigned int	nbr;
+	int				sign;
 	int				size;
+	char			*abc = "0123456789ABCDEF";
+	unsigned int	tmp;
 	char			*res;
 
-	if (base == 10 && value < 0)
-		i = -value;
+	if (base < 2 || base > 16)
+		return (NULL);
+	if (value < 0)
+		nbr = -value;
 	else
-		i = value;
-	size = 1 + (base == 10 && value < 0);
-	while ((i /= base) != 0)
+		nbr = value;
+	if (value < 0 && base == 10)
+	{
+		sign = -1;
+		size = 2;
+	}
+	else
+	{
+		sign = 1;
+		size = 1;
+	}
+	tmp = nbr;
+	while (tmp /= base)
 		size++;
-	res = malloc(size + 1);
-	res[size] = '\0';
-	if (base == 10 && value < 0)
-		i = -value;
-	else
-		i = value;
-	res[--size] = "0123456789ABCDEF"[i % base];
-	while ((i /= base) != 0)
-		res[--size] = "0123456789ABCDEF"[i % base];
-	if (base == 10 && value < 0)
-		res[--size] = '-';
+	res = (char*)malloc(sizeof(char) * (size + 1));
+	res[size--] = '\0';
+	res[size--] = abc[nbr % base];
+	nbr /= base;
+	while (nbr)
+	{
+		res[size] = abc[nbr % base];
+		nbr /= base;
+		size--;
+	}
+	if (sign == -1)
+		res[size] = '-';
 	return (res);
 }
